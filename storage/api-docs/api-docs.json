@@ -1,0 +1,64 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Quizerland API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/quizzes": {
+            "get": {
+                "tags": [
+                    "Тесты"
+                ],
+                "summary": "Список тестов",
+                "description": "Получить список тестов с пагинацией",
+                "operationId": "eb9ba15b35ba53ab91ba8b1a4e215e29",
+                "parameters": [
+                    {
+                        "name": "cursor",
+                        "in": "query",
+                        "description": "Хеш для получения следующего блока тестов",
+                        "schema": {
+                            "type": "string",
+                            "example": "$2fssfhu9ewagh97e9aus90few09ayfds9fa"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "next_cursor": {
+                                            "type": "string",
+                                            "example": "$2fssfhu9ewagh97e9aus90few09ayfds9fa",
+                                            "nullable": true
+                                        },
+                                        "per_page": {
+                                            "type": "integer",
+                                            "example": 15
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
