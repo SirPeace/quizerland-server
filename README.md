@@ -24,6 +24,7 @@ $ ./vendor/bin/sail up -d
 ```
 
 Server is now available on the port: **8000**
+
 Documentation: _localhost:8000/api/documentation_
 
 ✌️ Happy coding!
