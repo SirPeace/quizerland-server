@@ -6,6 +6,7 @@ In project's folder run these commands (bash):
 
 ```
 $ cp .env.example .env
+$ docker-compose up -d
 $ docker-compose exec server bash
 ```
 
