@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->string('text', 255);
-            $table->foreignId('correct_answer_id')
-                ->references('id')
-                ->on('answers')
+            $table->foreignId('quiz_id')
+                ->constrained('quizzes')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->foreignId('correct_answer_id')->nullable()
+                ->constrained('answers')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
             $table->timestamps();

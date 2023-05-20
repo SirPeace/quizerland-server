@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\Question;
 use App\Models\Quiz;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class QuizSeeder extends Seeder
 {
@@ -15,6 +16,7 @@ class QuizSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::beginTransaction();
         foreach ($this->getSchema() as $quizSchema) {
             /** @var Quiz $quiz */
             $quiz = Quiz::query()->create(
@@ -24,14 +26,18 @@ class QuizSeeder extends Seeder
             foreach ($quizSchema['questions'] as $questionSchema) {
                 /** @var Question $question */
                 $question = $quiz->questions()->create(
-                    collect($questionSchema)->except('answers')->toArray()
+                    collect($questionSchema)->except(['answers', 'correct_answer_id'])->toArray()
                 );
 
                 foreach ($questionSchema['answers'] as $answerSchema) {
                     $question->answers()->create($answerSchema);
                 }
+
+                $question->correctAnswer()->associate($questionSchema['correct_answer_id']);
+                $question->save();
             }
         }
+        DB::commit();
     }
 
     /**
@@ -43,6 +49,7 @@ class QuizSeeder extends Seeder
             [
                 'title' => 'Тест по географии',
                 'description' => 'Геогра́фия — комплекс естественных и общественных наук, изучающих структуру, функционирование и эволюцию географической оболочки, взаимодействие и распределение в пространстве природных и природно-общественных геосистем и их компонентов',
+                'author_id' => 1,
                 'questions' =>
                 [
                     [
@@ -94,6 +101,7 @@ class QuizSeeder extends Seeder
             [
                 'title' => 'Тест по истории РФ',
                 'description' => 'Исто́рия — наука, исследующая прошлое, реальные факты и закономерности смены исторических событий, эволюцию общества и отношений внутри него, обусловленных человеческой деятельностью на протяжении многих поколений. В наши дни появилось новое определение истории как науки «о прошлой социальной реальности»',
+                'author_id' => 1,
                 'questions' =>
                 [
                     [
@@ -145,6 +153,7 @@ class QuizSeeder extends Seeder
             [
                 'title' => 'Тест по брендам автомобилей',
                 'description' => 'Автомоби́ль — моторное безрельсовое дорожное и/или внедорожное, чаще всего автономное, транспортное средство, используемое для перевозки людей и/или грузов, имеющее от четырёх колёс. Основное назначение автомобиля заключается в совершении транспортной работы.',
+                'author_id' => 1,
                 'questions' =>
                 [
                     [
@@ -196,6 +205,7 @@ class QuizSeeder extends Seeder
             [
                 'title' => 'Тест по музыке',
                 'description' => 'Му́зыка — вид искусства, в котором определённым образом организованные звуки используются для создания некоторого сочетания формы, гармонии, мелодии, ритма или иного выразительного содержания',
+                'author_id' => 1,
                 'questions' =>
                 [
                     [
@@ -247,6 +257,7 @@ class QuizSeeder extends Seeder
             [
                 'title' => 'Тест по изобразительному искусству',
                 'description' => 'Изобрази́тельное иску́сство или изобрази́тельные иску́сства — класс пространственных искусств, объединяющий живопись, скульптуру, графику, монументальное искусство и фотоискусство.',
+                'author_id' => 1,
                 'questions' =>
                 [
                     [
@@ -298,6 +309,7 @@ class QuizSeeder extends Seeder
             [
                 'title' => 'Тест о космосе',
                 'description' => 'Косми́ческое простра́нство, ко́смос — относительно пустые участки Вселенной, которые лежат вне границ атмосфер небесных тел.',
+                'author_id' => 1,
                 'questions' =>
                 [
                     [
