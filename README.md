@@ -1,12 +1,30 @@
 ### Start up
 
-In project's folder run these commands (bash):
+Project requires [Docker](https://www.docker.com/) to be installed
 
+In project's folder run these commands (bash):
+```
+$ cp .env.example .env
+$ docker-compose exec server bash
+```
+
+Then inside the running container:
+```
+# composer install
+# php artisan key:generate
+# touch database/database.sqlite
+# php artisan migrate
+# php artisan db:seed
+# exit
+```
+
+Then once again in the project folder restart the container:
 ```
 $ ./vendor/bin/sail up -d
-$ ./vendor/bin/sail composer install
-$ ./vendor/bin/sail artisan key:generate
-$ touch database/database.sqlite
-$ ./vendor/bin/sail artisan migrate
-$ ./vendor/bin/sail artisan db:seed
 ```
+
+Server is now available on the port: **8000**
+
+Documentation: [http://localhost:8000/api/documentation](http://localhost:8000/api/documentation)
+
+✌️ Happy coding!
