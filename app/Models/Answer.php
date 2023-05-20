@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use OpenApi\Attributes as OA;
 
 /**
  *
@@ -17,11 +17,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property Question   $question
  *
  */
+#[OA\Schema(
+    schema: 'AnswerSchema',
+    properties: [
+        new OA\Property(
+            property: 'id',
+            type: 'integer',
+        ),
+        new OA\Property(
+            property: 'text',
+            type: 'string',
+            example: 'Текст ответа...',
+        ),
+    ]
+)]
 class Answer extends Model
 {
-    use HasFactory;
-
     protected $guarded = [];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 
     public function question(): BelongsTo
     {

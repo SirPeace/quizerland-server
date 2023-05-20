@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use OpenApi\Attributes as OA;
 
 /**
  *
@@ -21,11 +21,37 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property ?Answer             $correctAnswer
  *
  */
+#[OA\Schema(
+    schema: 'QuestionSchema',
+    properties: [
+        new OA\Property(
+            property: 'id',
+            type: 'integer',
+        ),
+        new OA\Property(
+            property: 'text',
+            type: 'string',
+            example: 'Текст ответа...',
+        ),
+        new OA\Property(
+            property: 'correct_answer_id',
+            type: 'number',
+        ),
+        new OA\Property(
+            property: 'answers',
+            type: 'array',
+            items: new OA\Items(ref: "#/components/schemas/AnswerSchema")
+        ),
+    ]
+)]
 class Question extends Model
 {
-    use HasFactory;
-
     protected $guarded = [];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 
     public function correctAnswer(): BelongsTo
     {

@@ -27,28 +27,24 @@ class QuizController extends Controller
     #[OA\Response(
         response: 200,
         description: 'OK',
-        content: new OA\JsonContent(
-            properties: [
-                new OA\Property(
-                    property: 'next_cursor',
-                    type: 'string',
-                    nullable: true,
-                    example: '$2fssfhu9ewagh97e9aus90few09ayfds9fa'
-                ),
-                new OA\Property(
-                    property: 'per_page',
-                    type: 'integer',
-                    example: 15,
-                ),
-                new OA\Property(
-                    property: 'data',
-                    type: 'array',
-                    items: new OA\Items(properties: [
-                        new OA\Property(property: 'id', type: 'integer'),
-                    ])
-                )
-            ]
-        )
+        content: new OA\JsonContent(properties: [
+            new OA\Property(
+                property: 'next_cursor',
+                type: 'string',
+                nullable: true,
+                example: '$2fssfhu9ewagh97e9aus90few09ayfds9fa'
+            ),
+            new OA\Property(
+                property: 'per_page',
+                type: 'integer',
+                example: 15,
+            ),
+            new OA\Property(
+                property: 'data',
+                type: 'array',
+                items: new OA\Items(ref: "#/components/schemas/QuizSchema")
+            )
+        ])
     )]
     public function index(IndexRequest $request): JsonResponse
     {

@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\QuizController;
-use Illuminate\Http\Request;
+use App\Http\Controllers as Api;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,11 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::get('/user', [Api\UserController::class, 'show']);
 
     Route::prefix('/quizzes')->group(function () {
-        Route::get('/', [QuizController::class, 'index']);
+        Route::get('/', [Api\QuizController::class, 'index']);
     });
 });
