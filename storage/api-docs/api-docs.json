@@ -5,6 +5,103 @@
         "version": "1.0"
     },
     "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Авторизация"
+                ],
+                "summary": "Вход",
+                "description": "Вход в систему по логину и паролю",
+                "operationId": "42f77e072dec84b0e1094cca1228298e",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "admin@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "422": {
+                        "description": "Неверный логин и/или пароль"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Авторизация"
+                ],
+                "summary": "Выход",
+                "description": "Выход из системы",
+                "operationId": "03afb12b342c2ea43bdc1de4f39e91a8",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "tags": [
+                    "Авторизация"
+                ],
+                "summary": "Регистрация",
+                "description": "Регистрация нового пользователя в системе",
+                "operationId": "573de1fed352c1205a32c4d1b9877375",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Jason Statham"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "fake@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "secure-password123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "secure-password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "422": {
+                        "description": "Невалидные данные"
+                    }
+                }
+            }
+        },
         "/api/quizzes": {
             "get": {
                 "tags": [
@@ -43,12 +140,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer"
-                                                    }
-                                                },
-                                                "type": "object"
+                                                "$ref": "#/components/schemas/QuizSchema"
                                             }
                                         }
                                     },
@@ -58,6 +150,125 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/user": {
+            "post": {
+                "tags": [
+                    "Авторизация"
+                ],
+                "summary": "Пользователь",
+                "description": "Получить данные авторизованного пользователя",
+                "operationId": "59d04a61de17524a2768d4d7750d2d19",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Jason Statham"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "fake@example.com"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "example": "2023-05-20T12:45:00.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "example": "2023-05-20T12:45:00.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Пользователь не авторизован"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AnswerSchema": {
+                "properties": {
+                    "id": {
+                        "description": "-------- Columns ---------",
+                        "type": "integer"
+                    },
+                    "text": {
+                        "type": "string",
+                        "example": "Текст ответа..."
+                    }
+                },
+                "type": "object"
+            },
+            "QuestionSchema": {
+                "properties": {
+                    "id": {
+                        "description": "-------- Columns ---------",
+                        "type": "integer"
+                    },
+                    "text": {
+                        "type": "string",
+                        "example": "Текст ответа..."
+                    },
+                    "correct_answer_id": {
+                        "type": "number"
+                    },
+                    "answers": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AnswerSchema"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "QuizSchema": {
+                "properties": {
+                    "id": {
+                        "description": "-------- Columns ---------",
+                        "type": "integer"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Тест по географии"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Геогра́фия — комплекс естественных и общественных наук"
+                    },
+                    "author_id": {
+                        "type": "number"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2023-05-20T12:45:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2023-05-20T12:45:00.000000Z"
+                    },
+                    "questions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/QuestionSchema"
+                        }
+                    }
+                },
+                "type": "object"
             }
         }
     }
