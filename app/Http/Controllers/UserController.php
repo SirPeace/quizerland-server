@@ -8,7 +8,7 @@ use OpenApi\Attributes as OA;
 
 class UserController extends Controller
 {
-    #[OA\Post(
+    #[OA\Get(
         tags: ["Авторизация"],
         path: "/api/user",
         summary: "Пользователь",

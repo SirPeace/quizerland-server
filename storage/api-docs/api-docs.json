@@ -219,13 +219,13 @@
             }
         },
         "/api/user": {
-            "post": {
+            "get": {
                 "tags": [
                     "Авторизация"
                 ],
                 "summary": "Пользователь",
                 "description": "Получить данные авторизованного пользователя",
-                "operationId": "59d04a61de17524a2768d4d7750d2d19",
+                "operationId": "9cd1cee912e0176094a7ec83cc9b432f",
                 "responses": {
                     "200": {
                         "description": "OK",
