@@ -19,5 +19,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::prefix('/quizzes')->group(function () {
         Route::get('/', [Api\QuizController::class, 'index']);
+        Route::get('/{quiz}', [Api\QuizController::class, 'show']);
+        Route::post('/', [Api\QuizController::class, 'store']);
     });
 });

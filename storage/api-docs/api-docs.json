@@ -150,6 +150,72 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Тесты"
+                ],
+                "summary": "Создать тест",
+                "description": "Создать тест",
+                "operationId": "2513a2f792e5c3a5bccd78eb9b4e3786",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/QuizCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/quizzes/:id": {
+            "get": {
+                "tags": [
+                    "Тесты"
+                ],
+                "summary": "Тест",
+                "description": "Получить тест по идентификатору",
+                "operationId": "7c6b463a11099b05d6bfc1db7d5de19f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Идентификатор теста",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/QuizSchema"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/user": {
@@ -201,6 +267,50 @@
     },
     "components": {
         "schemas": {
+            "QuizCreateRequest": {
+                "properties": {
+                    "title": {
+                        "description": "Название теста",
+                        "type": "string",
+                        "example": "Тест на знание анатомии"
+                    },
+                    "description": {
+                        "description": "Описание теста",
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit emmet"
+                    },
+                    "questions": {
+                        "description": "Вопросы",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/QuestionForQuizCreateRequest"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "QuestionForQuizCreateRequest": {
+                "properties": {
+                    "text": {
+                        "description": "Текст вопроса",
+                        "type": "string",
+                        "example": "Какой орган человека похож на грецкий орех?"
+                    },
+                    "correct_answer_index": {
+                        "description": "Индекс правильного ответа",
+                        "type": "integer"
+                    },
+                    "answers": {
+                        "description": "Ответы",
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "example": "Мозг"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "AnswerSchema": {
                 "properties": {
                     "id": {

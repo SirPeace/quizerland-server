@@ -22,7 +22,7 @@ class IndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'next' => ['sometimes', 'string'],
+            'cursor' => ['sometimes', 'string'],
         ];
     }
 }
